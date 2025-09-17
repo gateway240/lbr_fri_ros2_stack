@@ -48,7 +48,7 @@ def generate_launch_description() -> LaunchDescription:
     )
     # Include Gazebo ROS launch file to expose /reset_simulation
     gazebo_ros_pkg_share = FindPackageShare('gazebo_ros').find('gazebo_ros')
-    gazebo_ros_launch_file = os.path.join(gazebo_ros_pkg_share, 'launch', 'gzserver.launch.py')
+    gazebo_ros_launch_file = os.path.join(gazebo_ros_pkg_share, 'launch', 'gazebo.launch.py')
 
     ld.add_action(IncludeLaunchDescription(
         PythonLaunchDescriptionSource(gazebo_ros_launch_file),
