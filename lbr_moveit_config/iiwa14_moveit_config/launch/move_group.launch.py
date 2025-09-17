@@ -4,7 +4,6 @@ from ament_index_python import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
 from moveit_configs_utils.launches import generate_move_group_launch
 
-
 def generate_launch_description():
     moveit_config = (
         MoveItConfigsBuilder("iiwa14", package_name="iiwa14_moveit_config")
@@ -14,6 +13,8 @@ def generate_launch_description():
                 "urdf/iiwa14/iiwa14.xacro",
             )
         )
+        .planning_pipelines(["chomp"])  # <-- add CHOMP here
+        .default_planning_pipeline("chomp")    # <-- set default to CHOMP
         .to_moveit_configs()
     )
     return generate_move_group_launch(moveit_config)

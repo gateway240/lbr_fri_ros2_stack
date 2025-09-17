@@ -7,6 +7,10 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from lbr_bringup.description import LBRDescriptionMixin
 from lbr_bringup.moveit import LBRMoveGroupMixin
 from lbr_bringup.rviz import RVizMixin
+from launch_ros.actions import Node #Added
+
+from ament_index_python.packages import get_package_share_directory
+import os
 
 
 def hidden_setup(context: LaunchContext) -> List[LaunchDescriptionEntity]:
@@ -25,6 +29,12 @@ def hidden_setup(context: LaunchContext) -> List[LaunchDescriptionEntity]:
         package_name=f"{model}_moveit_config",
     )
     move_group_params = LBRMoveGroupMixin.params_move_group()
+    
+    planning_pipeline_config = os.path.join(
+    get_package_share_directory(f"{model}_moveit_config"),
+    "config",
+    "planning_pipelines.yaml",
+)
 
     mode = LaunchConfiguration("mode").perform(context)
     use_sim_time = False
@@ -84,6 +94,26 @@ def hidden_setup(context: LaunchContext) -> List[LaunchDescriptionEntity]:
     )
 
     ld.add_action(rviz)
+    
+    
+    # Kinematics node added:
+    kinematics_node = Node(
+        package="moveit_kinematics",
+        executable="moveit_kinematics_node",
+        name="kinematics_node",
+        output="screen",
+        parameters=[
+            os.path.join(
+                get_package_share_directory(f"{model}_moveit_config"),
+                "config",
+                "kinematics.yaml"
+            ),
+            {"robot_description": LaunchConfiguration("robot_description")}
+        ],
+        namespace=robot_name
+)
+
+ld.add_action(kinematics_node)
     return ld.entities
 
 

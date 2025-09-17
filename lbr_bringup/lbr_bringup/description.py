@@ -15,7 +15,7 @@ class LBRDescriptionMixin:
     @staticmethod
     def param_robot_description(
         model: Optional[Union[LaunchConfiguration, str]] = LaunchConfiguration(
-            "model", default="iiwa7"
+            "model", default="iiwa14"
         ),
         robot_name: Optional[Union[LaunchConfiguration, str]] = LaunchConfiguration(
             "robot_name", default="lbr"
@@ -32,18 +32,6 @@ class LBRDescriptionMixin:
                 ),
                 LaunchConfiguration(
                     "sys_cfg", default="ros2_control/lbr_system_config.yaml"
-                ),
-            ]
-        ),
-        initial_joint_positions_path: Optional[
-            Union[LaunchConfiguration, str]
-        ] = PathJoinSubstitution(
-            [
-                FindPackageShare(
-                    LaunchConfiguration("sys_cfg_pkg", default="lbr_description")
-                ),
-                LaunchConfiguration(
-                    "init_jnt_pos", default="ros2_control/initial_joint_positions.yaml"
                 ),
             ]
         ),
@@ -68,15 +56,13 @@ class LBRDescriptionMixin:
                     mode,
                     " system_config_path:=",
                     system_config_path,
-                    " initial_joint_positions_path:=",
-                    initial_joint_positions_path,
                 ]
             )
         }
         return robot_description
 
     @staticmethod
-    def arg_model(default_value: str = "iiwa7") -> DeclareLaunchArgument:
+    def arg_model(default_value: str = "iiwa14") -> DeclareLaunchArgument:
         return DeclareLaunchArgument(
             name="model",
             default_value=default_value,
