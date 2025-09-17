@@ -4,8 +4,8 @@ FROM ros:humble-ros-base-jammy
 SHELL ["/bin/bash", "-c"]
 
 # upgrade packages
-RUN apt-get update
-RUN apt-get upgrade -y
+RUN apt-get update && \
+    rosdep update 
 
 # create workspace
 RUN mkdir -p home/ros2_ws/src
