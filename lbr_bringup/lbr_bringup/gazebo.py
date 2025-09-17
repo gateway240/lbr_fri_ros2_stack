@@ -20,7 +20,7 @@ class GazeboMixin:
                     ]
                 ),
             ),
-            launch_arguments={"gz_args": f'-r "/home/miro/KUKA_RL_SAC/src/lbr_fri_ros2_stack/src/lbr_fri_ros2_stack/lbr_bringup/gazebo_worlds/my_world.sdf"'}.items(),
+            launch_arguments={"gz_args": f'-r "empty.sdf"'}.items(),
             **kwargs,
         )
 
